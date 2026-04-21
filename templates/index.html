@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Shop Thời Trang</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212; /* Nền tối sang trọng */
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 { text-align: center; color: #f1f1f1; }
+        
+        /* Container chứa các sản phẩm */
+        .product-container {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap; /* Tự xuống dòng khi màn hình nhỏ */
+            margin-top: 30px;
+        }
+
+        /* Khung của từng sản phẩm */
+        .product-card {
+            background-color: #1e1e1e;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 15px;
+            width: 250px;
+            transition: transform 0.3s; /* Hiệu ứng khi di chuột */
+            text-align: center;
+        }
+        .product-card:hover {
+            transform: translateY(-10px); /* Nhảy lên nhẹ khi hover */
+            border-color: #007bff;
+        }
+        .product-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover; /* Giữ tỉ lệ ảnh không bị móp */
+            border-radius: 8px;
+        }
+        .price { color: #28a745; font-weight: bold; font-size: 1.2em; }
+        .buy-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🛒 Shop Bán Hàng Online</h1>
+    
+    <div class="product-container">
+        {% for p in products %}
+        <div class="product-card">
+            <img src="/static/images/{{ p.image }}" alt="{{ p.name }}">
+            <h3>{{ p.name }}</h3>
+            <p class="price">{{ p.price }} VND</p>
+            <button class="buy-btn">Thêm vào giỏ</button>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
