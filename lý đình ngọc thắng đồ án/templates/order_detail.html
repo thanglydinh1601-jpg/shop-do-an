@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Đơn hàng #{{ order['id'] }} — Shop Thắng{% endblock %}
+{% block content %}
+<a href="/orders" class="btn btn-outline-secondary btn-sm mb-3"><i class="bi bi-arrow-left me-1"></i>Quay lại</a>
+
+<div class="row">
+  <div class="col-md-7">
+    <div class="card p-4 mb-3">
+      <div class="d-flex justify-content-between align-items-start mb-3">
+        <h5 class="fw-bold mb-0">Đơn hàng #{{ order['id'] }}</h5>
+        {% set sc = 'success' if order['status']=='Đã giao' else 'warning' if order['status']=='Chờ xác nhận' else 'info' %}
+        <span class="badge bg-{{ sc }} fs-6">{{ order['status'] }}</span>
+      </div>
+      <table class="table table-sm">
+        <thead class="table-light">
+          <tr><th>Sản phẩm</th><th>Đơn giá</th><th>SL</th><th class="text-end">Thành tiền</th></tr>
+        </thead>
+        <tbody>
+          {% for d in details %}
+          <tr>
+            <td>{{ d['product_name'] }}</td>
+            <td>{{ d['price'] | fmt_price }}</td>
+            <td>{{ d['quantity'] }}</td>
+            <td class="text-end price-text fw-medium">{{ (d['price'] * d['quantity']) | fmt_price }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3" class="text-end fw-bold">Tổng cộng:</td>
+            <td class="text-end price-text fw-bold fs-5">{{ order['total'] | fmt_price }}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  <div class="col-md-5">
+    <div class="sidebar">
+      <h6 class="fw-bold mb-3"><i class="bi bi-info-circle me-1"></i>Thông tin đơn hàng</h6>
+      <div class="mb-2"><span class="text-muted">Ngày đặt:</span> {{ order['created_at'][:10] }}</div>
+      <div class="mb-2"><span class="text-muted">Người nhận:</span> {{ order['fullname'] }}</div>
+      <div class="mb-2"><span class="text-muted">Điện thoại:</span> {{ order['phone'] }}</div>
+      <div class="mb-2"><span class="text-muted">Địa chỉ:</span> {{ order['address'] }}</div>
+      <div class="mb-2"><span class="text-muted">Thanh toán:</span> {{ order['payment'] }}</div>
+    </div>
+  </div>
+</div>
+{% endblock %}
