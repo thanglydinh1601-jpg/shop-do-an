@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block extra_css %}
+<style>
+  .admin-sidebar { background:#2c2c2c; min-height:calc(100vh - 56px); padding:1.5rem 0; }
+  .admin-sidebar a { color:#bbb; display:block; padding:.6rem 1.5rem; text-decoration:none; font-size:.9rem; }
+  .admin-sidebar a:hover, .admin-sidebar a.active { color:#fff; background:rgba(255,255,255,.1); }
+  .admin-sidebar .section-label { color:#666; font-size:.7rem; text-transform:uppercase; letter-spacing:1px; padding:.5rem 1.5rem; margin-top:.5rem; }
+  .admin-content { padding:1.5rem; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row g-0" style="margin:-1rem">
+  <div class="col-md-2 admin-sidebar">
+    <div style="padding:.5rem 1.5rem 1rem;color:#fff;font-weight:600"><i class="bi bi-speedometer2 me-2"></i>Quản trị</div>
+    <div class="section-label">Tổng quan</div>
+    <a href="/admin" class="{{ 'active' if request.path=='/admin' }}"><i class="bi bi-house me-2"></i>Dashboard</a>
+    <div class="section-label">Quản lý</div>
+    <a href="/admin/products" class="{{ 'active' if '/admin/products' in request.path }}"><i class="bi bi-box-seam me-2"></i>Sản phẩm</a>
+    <a href="/admin/orders" class="{{ 'active' if '/admin/orders' in request.path }}"><i class="bi bi-bag-check me-2"></i>Đơn hàng</a>
+    <a href="/admin/users" class="{{ 'active' if '/admin/users' in request.path }}"><i class="bi bi-people me-2"></i>Khách hàng</a>
+    <div class="section-label">Khác</div>
+    <a href="/"><i class="bi bi-shop me-2"></i>Xem cửa hàng</a>
+    <a href="/logout"><i class="bi bi-box-arrow-right me-2"></i>Đăng xuất</a>
+  </div>
+  <div class="col-md-10 admin-content">
+    {% block admin_content %}{% endblock %}
+  </div>
+</div>
+{% endblock %}

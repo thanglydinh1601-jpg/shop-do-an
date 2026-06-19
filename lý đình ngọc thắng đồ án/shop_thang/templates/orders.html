@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Đơn hàng của tôi — Shop Thắng{% endblock %}
+{% block content %}
+<h4 class="fw-bold mb-4"><i class="bi bi-clipboard-check me-2"></i>Đơn hàng của tôi</h4>
+
+{% if orders %}
+  <div class="table-responsive">
+    <table class="table align-middle bg-white rounded shadow-sm">
+      <thead class="table-light">
+        <tr>
+          <th>#Mã đơn</th>
+          <th>Ngày đặt</th>
+          <th>Sản phẩm</th>
+          <th>Tổng tiền</th>
+          <th>Thanh toán</th>
+          <th>Trạng thái</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for o in orders %}
+        {% set sc = 'success' if o['status']=='Đã giao' else 'warning' if o['status']=='Chờ xác nhận' else 'info' %}
+        <tr>
+          <td><strong>#{{ o['id'] }}</strong></td>
+          <td>{{ o['created_at'][:10] }}</td>
+          <td>{{ o['item_count'] }} sản phẩm</td>
+          <td class="price-text fw-medium">{{ o['total'] | fmt_price }}</td>
+          <td><small class="text-muted">{{ o['payment'] }}</small></td>
+          <td><span class="badge bg-{{ sc }}">{{ o['status'] }}</span></td>
+          <td><a href="/orders/{{ o['id'] }}" class="btn btn-outline-primary btn-sm">Chi tiết</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% else %}
+  <div class="text-center py-5">
+    <div style="font-size:4rem">📦</div>
+    <h5 class="mt-3 text-muted">Bạn chưa có đơn hàng nào</h5>
+    <a href="/" class="btn btn-primary mt-3">Mua sắm ngay</a>
+  </div>
+{% endif %}
+{% endblock %}

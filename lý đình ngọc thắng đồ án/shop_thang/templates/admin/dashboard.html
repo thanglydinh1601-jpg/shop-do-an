@@ -1,0 +1,60 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Dashboard — Quản trị Shop Thắng{% endblock %}
+
+{% block admin_content %}
+<h4 class="fw-bold mb-4">Dashboard</h4>
+
+<div class="row g-3 mb-4">
+  <div class="col-6 col-md-3">
+    <div class="card p-3 text-center border-0 bg-light">
+      <div style="font-size:2rem">📦</div>
+      <h3 class="fw-bold mb-0">{{ stats.products }}</h3>
+      <small class="text-muted">Sản phẩm</small>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card p-3 text-center border-0 bg-light">
+      <div style="font-size:2rem">🛒</div>
+      <h3 class="fw-bold mb-0">{{ stats.orders }}</h3>
+      <small class="text-muted">Đơn hàng</small>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card p-3 text-center border-0 bg-light">
+      <div style="font-size:2rem">👥</div>
+      <h3 class="fw-bold mb-0">{{ stats.users }}</h3>
+      <small class="text-muted">Khách hàng</small>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card p-3 text-center border-0 bg-light">
+      <div style="font-size:2rem">💰</div>
+      <h3 class="fw-bold mb-0" style="font-size:1.2rem;color:#D85A30">{{ stats.revenue | fmt_price }}</h3>
+      <small class="text-muted">Doanh thu</small>
+    </div>
+  </div>
+</div>
+
+<div class="card p-3">
+  <h6 class="fw-bold mb-3">Đơn hàng gần đây</h6>
+  <table class="table table-sm align-middle">
+    <thead class="table-light">
+      <tr><th>#</th><th>Khách hàng</th><th>Tổng tiền</th><th>Thanh toán</th><th>Trạng thái</th><th>Ngày</th></tr>
+    </thead>
+    <tbody>
+      {% for o in recent_orders %}
+      {% set sc = 'success' if o['status']=='Đã giao' else 'warning' if o['status']=='Chờ xác nhận' else 'info' %}
+      <tr>
+        <td><a href="/orders/{{ o['id'] }}">#{{ o['id'] }}</a></td>
+        <td>{{ o['customer'] }}</td>
+        <td class="price-text">{{ o['total'] | fmt_price }}</td>
+        <td>{{ o['payment'] }}</td>
+        <td><span class="badge bg-{{ sc }}">{{ o['status'] }}</span></td>
+        <td>{{ o['created_at'][:10] }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href="/admin/orders" class="btn btn-outline-primary btn-sm">Xem tất cả đơn hàng →</a>
+</div>
+{% endblock %}
